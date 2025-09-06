@@ -1,38 +1,6 @@
 #!/bin/bash
-
-# Navigate to the project directory
-cd "$(dirname "$0")"
-
-# Color codes for output
-GREEN='\033[0;32m'
-BLUE='\033[0;34m'
-NC='\033[0m' # No Color
-
-echo -e "${BLUE}🚀 Starting MentalCare Development Server...${NC}"
-echo ""
-
-# Function to open browser
-open_browser() {
-    sleep 3  # Wait for server to start
-    if [[ "$OSTYPE" == "darwin"* ]]; then
-        # macOS
-        open http://localhost:4001
-    elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
-        # Linux
-        xdg-open http://localhost:4001
-    elif [[ "$OSTYPE" == "msys" || "$OSTYPE" == "cygwin" ]]; then
-        # Windows
-        start http://localhost:4001
-    fi
-}
-
-# Start browser opening in background
-open_browser &
-
-# Start the Next.js development server
-echo -e "${GREEN}✨ Server starting at http://localhost:4001${NC}"
-echo -e "${GREEN}✨ Browser will open automatically...${NC}"
-echo ""
-
-# Run the dev server
+# Simple dev command that kills any process on port 4000 and starts the Next.js app
+echo "🚀 Starting development server on port 4000..."
+lsof -ti:4000 | xargs kill -9 2>/dev/null || true
+echo "⚡ Starting Next.js development server..."
 npm run dev
