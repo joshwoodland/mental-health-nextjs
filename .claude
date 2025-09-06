@@ -1,0 +1,250 @@
+# MentalCare - Next.js Mental Health Platform
+# Code Organization & Development Guidelines
+
+## 🏗️ Project Structure
+
+This is a Next.js 15 mental health platform with TypeScript, Tailwind CSS, and Zustand state management.
+
+### Core Directory Structure
+```
+mental-health-nextjs/
+├── app/                          # Next.js App Router
+│   ├── (auth)/                   # Route groups for auth pages
+│   ├── api/                      # API routes (REST endpoints)
+│   │   ├── providers/            # Provider-related endpoints
+│   │   ├── bookings/             # Booking-related endpoints
+│   │   ├── insurance/            # Insurance-related endpoints
+│   │   └── auth/                 # Authentication endpoints
+│   ├── book/                     # Booking pages
+│   ├── providers/                # Provider listing pages
+│   ├── services/                 # Services pages
+│   ├── globals.css               # Global styles
+│   ├── layout.tsx                # Root layout
+│   └── page.tsx                  # Homepage
+├── components/                    # React Components
+│   ├── ui/                       # Reusable UI components
+│   │   ├── Button.tsx
+│   │   ├── Card.tsx
+│   │   ├── Modal.tsx
+│   │   └── ProviderCard.tsx
+│   ├── forms/                    # Form components
+│   │   ├── BookingForm.tsx
+│   │   ├── ContactForm.tsx
+│   │   └── SearchForm.tsx
+│   ├── layout/                   # Layout components
+│   │   ├── Header.tsx
+│   │   ├── Footer.tsx
+│   │   └── Navigation.tsx
+│   ├── sections/                 # Page sections
+│   │   ├── Hero.tsx
+│   │   ├── FAQ.tsx
+│   │   └── Testimonials.tsx
+│   └── features/                 # Feature-specific components
+│       ├── booking/
+│       ├── providers/
+│       └── insurance/
+├── lib/                          # Utilities & Configuration
+│   ├── api/                      # API client functions
+│   │   ├── providers.ts
+│   │   ├── bookings.ts
+│   │   └── insurance.ts
+│   ├── hooks/                    # Custom React hooks
+│   │   ├── useProviders.ts
+│   │   ├── useBookings.ts
+│   │   └── useLocalStorage.ts
+│   ├── utils/                    # Utility functions
+│   │   ├── validation.ts
+│   │   ├── formatting.ts
+│   │   └── constants.ts
+│   ├── types/                    # TypeScript type definitions
+│   │   ├── provider.ts
+│   │   ├── booking.ts
+│   │   └── api.ts
+│   ├── store.ts                  # Zustand store
+│   └── utils.ts                  # General utilities
+├── public/                       # Static assets
+│   ├── images/
+│   ├── icons/
+│   └── logos/
+└── styles/                       # Additional styles
+    ├── components.css
+    └── utilities.css
+```
+
+## 📋 Component Organization Rules
+
+### 1. Component Naming & Structure
+- **PascalCase** for all component files: `ProviderCard.tsx`
+- **Descriptive names** that indicate purpose: `BookingModal.tsx`, `InsuranceLogos.tsx`
+- **One component per file** with matching filename
+- **Default export** for main component, named exports for utilities
+
+### 2. Component Categories
+- **`/ui`**: Reusable, generic UI components (buttons, cards, modals)
+- **`/forms`**: Form-specific components with validation
+- **`/layout`**: Layout and navigation components
+- **`/sections`**: Page section components (hero, testimonials, FAQ)
+- **`/features`**: Feature-specific components grouped by domain
+
+### 3. Component File Structure
+```typescript
+'use client' // Only if needed for client-side features
+
+import { useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
+import { ComponentProps } from '@/lib/types/component'
+
+interface ComponentNameProps {
+  // Props interface
+}
+
+export default function ComponentName({ 
+  prop1, 
+  prop2 
+}: ComponentNameProps) {
+  // Component logic
+  return (
+    // JSX
+  )
+}
+```
+
+## 🔌 API Organization Rules
+
+### 1. API Route Structure
+- **RESTful endpoints** following Next.js 13+ conventions
+- **Grouped by feature** in `/app/api/` subdirectories
+- **Consistent naming**: `GET /api/providers`, `POST /api/bookings`
+- **Version control**: Use `/api/v1/` for future API versions
+
+### 2. API Client Functions
+- **Centralized in `/lib/api/`** with feature-based files
+- **Type-safe** with TypeScript interfaces
+- **Error handling** with consistent error responses
+- **Caching strategy** using Next.js built-in caching
+
+### 3. API File Structure
+```typescript
+// lib/api/providers.ts
+import { Provider, ApiResponse } from '@/lib/types'
+
+export async function getProviders(state?: string): Promise<ApiResponse<Provider[]>> {
+  // API call logic
+}
+
+export async function getProviderById(id: string): Promise<ApiResponse<Provider>> {
+  // API call logic
+}
+```
+
+## 🎨 Styling Guidelines
+
+### 1. Tailwind CSS Organization
+- **Custom theme** in `tailwind.config.ts` with semantic color names
+- **Component-specific styles** in component files
+- **Global styles** in `app/globals.css`
+- **Utility classes** for consistent spacing and typography
+
+### 2. Color System
+- **Semantic naming**: `sage-500`, `lavender-400`, `cream-50`
+- **Consistent usage** across components
+- **Dark mode ready** with CSS variables
+
+### 3. Responsive Design
+- **Mobile-first** approach with Tailwind breakpoints
+- **Consistent spacing** using Tailwind spacing scale
+- **Typography hierarchy** with custom font families
+
+## 📦 State Management
+
+### 1. Zustand Store Structure
+- **Feature-based slices** for different domains
+- **Type-safe** with TypeScript interfaces
+- **Actions grouped** by functionality
+- **Persistent state** where appropriate
+
+### 2. Custom Hooks
+- **Business logic** in custom hooks
+- **API calls** abstracted into hooks
+- **Reusable state logic** across components
+
+## 🧪 Code Quality Standards
+
+### 1. TypeScript
+- **Strict mode** enabled
+- **Interface definitions** for all data structures
+- **Type safety** for props and state
+- **Generic types** for reusable components
+
+### 2. Performance
+- **Code splitting** with dynamic imports
+- **Image optimization** with Next.js Image component
+- **Lazy loading** for non-critical components
+- **Memoization** for expensive calculations
+
+### 3. Accessibility
+- **Semantic HTML** elements
+- **ARIA labels** where needed
+- **Keyboard navigation** support
+- **Screen reader** compatibility
+
+## 🚀 Adding New Features
+
+### 1. New Components
+1. Determine component category (`ui`, `forms`, `layout`, `sections`, `features`)
+2. Create component file with proper naming convention
+3. Define TypeScript interface for props
+4. Implement component with consistent styling
+5. Add to appropriate index file for exports
+
+### 2. New API Endpoints
+1. Create route file in `/app/api/[feature]/`
+2. Implement handler with proper HTTP methods
+3. Add client function in `/lib/api/[feature].ts`
+4. Define TypeScript types in `/lib/types/[feature].ts`
+5. Add error handling and validation
+
+### 3. New Pages
+1. Create page file in `/app/[route]/page.tsx`
+2. Add layout if needed
+3. Implement with proper metadata
+4. Add navigation links
+5. Test responsive design
+
+## 🔧 Development Workflow
+
+### 1. Before Adding New Code
+- Check if similar functionality exists
+- Plan component hierarchy and data flow
+- Consider reusability and maintainability
+- Review existing patterns and conventions
+
+### 2. Code Review Checklist
+- [ ] Follows naming conventions
+- [ ] Proper TypeScript types
+- [ ] Consistent styling approach
+- [ ] Accessible and responsive
+- [ ] Error handling implemented
+- [ ] Performance considerations
+
+### 3. File Organization
+- Keep related files together
+- Use descriptive folder names
+- Avoid deep nesting (max 3-4 levels)
+- Group by feature, not file type
+
+## 📝 Documentation
+
+### 1. Component Documentation
+- JSDoc comments for complex components
+- Props interface documentation
+- Usage examples in comments
+- README files for complex features
+
+### 2. API Documentation
+- Endpoint documentation with examples
+- Request/response schemas
+- Error code documentation
+- Authentication requirements
+
+This structure ensures scalability, maintainability, and consistency as the project grows. Always consider the user experience and developer experience when making architectural decisions.
