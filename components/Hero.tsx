@@ -8,7 +8,7 @@ export default function Hero() {
   const features = [
     { icon: Heart, text: 'Virtual visits' },
     { icon: Leaf, text: 'Insurance accepted' },
-    { icon: Sun, text: 'Seen within 48 hours' },
+    { icon: Sun, text: 'Seen within days, not weeks' },
   ]
 
   return (
